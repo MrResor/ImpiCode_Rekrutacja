@@ -1,0 +1,6 @@
+*.pdf
+*.zip
+Scripts/
+Lib/
+Include/
+Data/
