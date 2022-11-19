@@ -1,16 +1,26 @@
 from decorators import file_open_err
 from numpy import array
 from operator import mul, add
+import argparse
 
 
 class ElephantSolver:
     def __init__(self) -> None:
-        self.read_data()
+        fname = self.parser_prep()
+        self.read_data(fname)
         self.solution()
 
+    def parser_prep(self) -> str:
+        parser = argparse.ArgumentParser(
+                    prog='ElephantSolver',
+                    description='Program solving an elephant problem')
+        parser.add_argument('filename', type=str, nargs=1)
+        args = parser.parse_args()
+        return args.filename[0]
+
     @file_open_err
-    def read_data(self) -> None:
-        with open("Data/slo2.in", "r") as f:
+    def read_data(self, fname) -> None:
+        with open(fname, "r") as f:
             self.count = int(f.readline())
             self.weight = array([int(w) for w in
                                 f.readline().strip().split(' ')])
@@ -20,19 +30,7 @@ class ElephantSolver:
                                f.readline().strip().split(' ')]
 
     def solution(self) -> None:
-        p = [self.curr_order[self.want_order.index(i)]
-             for i in range(self.count)]
-        visited = [False for _ in p]
-        sets = set()
-        for i in range(self.count):
-            if not visited[i]:
-                tmp = set()
-                x = i
-                while not visited[x]:
-                    visited[x] = True
-                    tmp.add(x)
-                    x = p[x]
-                sets.add(frozenset(tmp))
+        sets = self.get_sets()
         sums = [sum(self.weight[list(s)]) for s in sets]
         minimas = [min(self.weight[list(s)]) for s in sets]
         # TODO this code may proof faster for longer arrays
@@ -47,10 +45,24 @@ class ElephantSolver:
         mini = min(minimas)
         method2 = list(map(add, sums, map(add, minimas, [(len(s) + 1) * mini
                                                          for s in sets])))
-        print([(len(s) + 1) * min(minimas) for s in sets])
-        print(method1, method2)
         res = sum(list(map(min, method1, method2)))
         print(res)
+
+    def get_sets(self) -> set:
+        p = [self.curr_order[self.want_order.index(i)]
+             for i in range(self.count)]
+        visited = [False for _ in p]
+        sets = set()
+        for i in range(self.count):
+            if not visited[i]:
+                tmp = set()
+                x = i
+                while not visited[x]:
+                    visited[x] = True
+                    tmp.add(x)
+                    x = p[x]
+                sets.add(frozenset(tmp))
+        return sets
 
 
 if __name__ == '__main__':
