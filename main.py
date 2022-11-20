@@ -5,12 +5,30 @@ import argparse
 
 
 class ElephantSolver:
+    """ Sole class for solving an Elephant problem.\n
+
+        Attributes:\n
+        count       -- holds number of elephants in current problem.\n
+        weight      -- contains weights of all elephants.\n
+        curr_order  -- current order of elephants.\n
+        want_order  -- desired order of elephants.\n
+
+        Methods:\n
+        parser_prep -- sets up argparse and retreives arguments.\n
+        read_data   -- retrieves information from input file.\n
+        solution    -- function responsible for finding the solution.\n
+        get_sets    -- retrieves cycles from given orders and
+        puts then into sets.
+    """
     def __init__(self) -> None:
         fname = self.parser_prep()
         self.read_data(fname)
         self.solution()
 
     def parser_prep(self) -> str:
+        """ Prepaires argparser and parses parameters passed.
+            Returns a filename (which should be some parameter).
+        """
         parser = argparse.ArgumentParser(
                     prog='ElephantSolver',
                     description='Program solving an elephant problem')
@@ -20,6 +38,8 @@ class ElephantSolver:
 
     @file_open_err
     def read_data(self, fname) -> None:
+        """ Reads file line by line and saves the read data.
+        """
         with open(fname, "r") as f:
             self.count = int(f.readline())
             self.weight = array([int(w) for w in
@@ -30,6 +50,9 @@ class ElephantSolver:
                                f.readline().strip().split(' ')]
 
     def solution(self) -> None:
+        """ Later part of algorithm, calls get_sets to get cycles and then
+            finds minimas and sums of cycles and with this gets a result.
+        """
         sets = self.get_sets()
         # this is fastest way i found,
         # other include two list comprehensions and for loop
@@ -44,6 +67,9 @@ class ElephantSolver:
         print(res)
 
     def get_sets(self) -> set:
+        """ Initial part of algorithm, finds a cycles in the exhanges that
+            need to be done and returns the cycles found.
+        """
         p = [self.curr_order[self.want_order.index(i)]
              for i in range(self.count)]
         visited = [False for _ in p]
