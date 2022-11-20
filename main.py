@@ -4,7 +4,7 @@ from operator import mul, add
 import argparse
 
 
-class ElephantSolver:
+class ElephantSolver():
     """ Sole class for solving an Elephant problem.\n
 
         Attributes:\n
@@ -20,12 +20,12 @@ class ElephantSolver:
         get_sets    -- retrieves cycles from given orders and
         puts then into sets.
     """
-    def __init__(self) -> None:
-        fname = self.parser_prep()
+    def __init__(self, args=None) -> None:
+        fname = self.parser_prep(args,)
         self.read_data(fname)
         self.solution()
 
-    def parser_prep(self) -> str:
+    def parser_prep(self, args) -> str:
         """ Prepaires argparser and parses parameters passed.
             Returns a filename (which should be some parameter).
         """
@@ -33,7 +33,7 @@ class ElephantSolver:
                     prog='ElephantSolver',
                     description='Program solving an elephant problem')
         parser.add_argument('filename', type=str, nargs=1)
-        args = parser.parse_args()
+        args = parser.parse_args(args)
         return args.filename[0]
 
     @file_open_err
@@ -87,4 +87,4 @@ class ElephantSolver:
 
 
 if __name__ == '__main__':
-    app = ElephantSolver()
+    ElephantSolver()
