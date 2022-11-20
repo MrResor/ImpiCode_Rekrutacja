@@ -31,20 +31,15 @@ class ElephantSolver:
 
     def solution(self) -> None:
         sets = self.get_sets()
-        sums = [sum(self.weight[list(s)]) for s in sets]
-        minimas = [min(self.weight[list(s)]) for s in sets]
-        # TODO this code may proof faster for longer arrays
-        # sums = full((1, len(sets)), 0)
-        # minimas = full((1, len(sets)), inf)
-        # for i, s in enumerate(sets):
-        #     for el in s:
-        #         sums[0, i] += self.weight[el]
-        #         minimas[0, i] = min(minimas[0, i], self.weight[el])
-        method1 = list(map(add, sums, map(mul, [len(s) - 2 for s in sets],
-                                          minimas)))
-        mini = min(minimas)
-        method2 = list(map(add, sums, map(add, minimas, [(len(s) + 1) * mini
-                                                         for s in sets])))
+        # this is fastest way i found,
+        # other include two list comprehensions and for loop
+        all = array([[sum(self.weight[list(s)]), min(self.weight[list(s)])]
+                    for s in sets])
+        method1 = list(map(add, all[:, 0], map(mul, [len(s) - 2 for s in sets],
+                                               all[:, 1])))
+        # even autolint refused to indent this part properly
+        method2 = list(map(add, all[:, 0], map(add, all[:, 1],
+                    [(len(s) + 1) * min(all[:, 1]) for s in sets])))
         res = sum(list(map(min, method1, method2)))
         print(res)
 
