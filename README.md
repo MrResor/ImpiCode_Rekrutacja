@@ -12,7 +12,15 @@ Program is designed to calculate smallest "cost" of moving elephants from curren
 Data comes in form on .in file. The files contain text which denotes number of elephants (first line), weights of elephants (second line), current layout of elephants (third line) and desired layout of elephants (fourth line).
 
 # Usage
-Code takes path to input file as parameter and prints a result of that problem to the console.
-
+Code takes contents of input file as standard input and prints a result of that problem to the console.</br>
+</br>
+Windows:</br>
+```Powershell
+Get-content input_file.in | python main.py
+```
+Linux: </br>
+```Bash
+python main.py < inpufile.in
+```
 # Method
 The cost of move is obtained by adding weights of both moved elephants. Knowing the current and desired layouts we can obtain the cycles. After calculating sum of weights and minimal weight in each cycle, it is possible to obtain the lowest cost for given cycle by choosing the lower result from two methods. The sum of those, for each cycle, gives us the result.

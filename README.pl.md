@@ -13,7 +13,16 @@ Dane pochodzą z plików w formacie .in. Pliki te zawierają tekst który oznacz
 wagę słoni (druga linijka), obecne ułożenie słoni (trzecia linijka) i pożądany układ słoni (czwarta linijka).
 
 # Użytkowanie
-Kod przyjmuje ścieżkę do pliku wejściowego jako parametr i wypisje wynik zawartego w nim problemu do konsoli.
+Kod przyjmuje zawartość pliku wejściowego jako standardowe wejście i wypisje wynik zawartego w nim problemu do konsoli. </br>
+
+Windows:</br>
+```Powershell
+Get-content input_file.in | python main.py
+```
+Linux: </br>
+```Bash
+python main.py < inpufile.in
+```
 
 # Metoda
 Kosztem przesunięcia słoni jest suma ich wag. Znając obecne i pożądane ułożenie możemy uzyskać cykle. Po obliczeniu sumy i minimów każdego cyku, możliwym jest uzyskanie najniższego kostu dla danego cyklu przez wybranie niższego z wyników dwóch metod. Suma otrzymanych wyników dla każdego cyklu jest rozwiązaniem danego problemu.

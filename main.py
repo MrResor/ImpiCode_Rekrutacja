@@ -1,7 +1,5 @@
-from decorators import file_open_err
 from numpy import array
 from operator import mul, add
-import argparse
 
 
 class ElephantSolver():
@@ -20,34 +18,18 @@ class ElephantSolver():
         get_sets    -- retrieves cycles from given orders and
         puts then into sets.
     """
-    def __init__(self, args=None) -> None:
-        fname = self.parser_prep(args,)
-        self.read_data(fname)
+    def __init__(self) -> None:
+        self.read_data()
         self.solution()
 
-    def parser_prep(self, args) -> str:
-        """ Prepaires argparser and parses parameters passed.
-            Returns a filename (which should be some parameter).
-        """
-        parser = argparse.ArgumentParser(
-                    prog='ElephantSolver',
-                    description='Program solving an elephant problem')
-        parser.add_argument('filename', type=str, nargs=1)
-        args = parser.parse_args(args)
-        return args.filename[0]
-
-    @file_open_err
-    def read_data(self, fname) -> None:
+    def read_data(self) -> None:
         """ Reads file line by line and saves the read data.
         """
-        with open(fname, "r") as f:
-            self.count = int(f.readline())
-            self.weight = array([int(w) for w in
-                                f.readline().strip().split(' ')])
-            self.curr_order = [int(w) - 1 for w in
-                               f.readline().strip().split(' ')]
-            self.want_order = [int(w) - 1 for w in
-                               f.readline().strip().split(' ')]
+        # read data, strip newlines and then split into list on ' '
+        self.count = int(input())
+        self.weight = array([int(w) for w in input().strip().split(' ')])
+        self.curr_order = [int(w) - 1 for w in input().strip().split(' ')]
+        self.want_order = [int(w) - 1 for w in input().strip().split(' ')]
 
     def solution(self) -> None:
         """ Later part of algorithm, calls get_sets to get cycles and then
