@@ -67,7 +67,7 @@ class Elephant
             for (auto set: sets)
                 for (auto s: set)
                     glob_min = std::min(weights[s], glob_min);
-            double res = 0;
+            long double res = 0;
             float sum, min;
             int len;
             for (auto set: sets)
